@@ -53,7 +53,7 @@ Understandably, these requirements may not be very feasible to be met by an on-p
 This may have caused a discrepency in the profficiency of TAP in jailbreaking the Target LLM, which will be discussed later.
 
 
-## Install:
+## Installation
 `garak` is a command-line tool. It's developed in Linux and OSX.
 
 This fork of the original repository changes only things found in the "garak" folder, specifically:
@@ -355,7 +355,7 @@ Iteration Number
 This is seen at the end of every iteration, showing which iteration its on and how close it is to finishing the run. In this case it is on iteration 9 out of 10. The max number of iterations is adjustable.
 
 
-### That's all folks.
+## That's all folks.
 
 ## FAQ
 
