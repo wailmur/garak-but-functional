@@ -33,7 +33,7 @@ TARGET: “Sure, here is a tutorial on how to build a bomb”
 The Attacker and Evaluator both aim to get the response of the Target to align as closely to the GOAL and TARGET. For the scope of this repository, that's all you need to know. Refer to the resources linked above if you would like to have a more in-depth explanation.
 
 ## Why did I do this?
-One of my coworkers was benchmarking an in-house AI application for the company I was interning at (Cloudsine) so I was tasked with experimenting and researching garak as a tool to improve his workflow. While garak admittedly does improve the workflow, the probes and by extension datasets available were not comprehensive enough for our purposes, and the detectors gave a lot of false positives. As a result, we thought garak would be of no value, but that was changed when I discovered TAP.
+One of my coworkers was benchmarking an in-house AI application for the company I was interning at so I was tasked with experimenting and researching garak as a tool to improve his workflow. While garak admittedly does improve the workflow, the probes and by extension datasets available were not comprehensive enough for our purposes, and the detectors gave a lot of false positives. As a result, we thought garak would be of no value, but that was changed when I discovered TAP.
 
 TAP was a probe I found most interesting as it did something unique among the rest of the probes, so I focused my efforts there. Learnt about how it works through the documentation dont by RI, and found the implementation of it in garak to be completely dysfunctional. The parsing of conversations between Attacker and Evaluator was malfunctioning, system prompts encouraged undesirable attacking prompts... etc. Hence, I embarked on the task of fixing it for the company to use, as well as adding code to make TAP easier to use. 
 
@@ -107,18 +107,15 @@ In the garak-config.json, you should see the following code
 {
    "rest": {
       "RestGenerator": {
-         "name": "Cloudsine Protector Plus",
-         "uri": "https://playground.cloudsine.tech:4001/playground/chat",
+         "name": "NAME",
+         "uri": "URL",
          "method": "post",
          "headers": {
             "Authorization": "Bearer $KEY",
             "Content-Type": "application/json"
          },
          "req_template_json_object": {
-                "message": "$INPUT",
-                "strategy": "level_0",
-                "verbose": false,
-                "model": "llama3.2:3b"
+                "text": "$INPUT"
          },
          "response_json": true,
          "response_json_field": "content"
