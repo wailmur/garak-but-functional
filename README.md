@@ -17,13 +17,11 @@
 
 <hr>
 
-## REST Generator
-
-## Install:
+## install:
 
 `garak` is a command-line tool. It's developed in Linux and OSX.
 
-### Standard install with `pip`
+### standard install with `pip`
 
 Just grab it from PyPI and you should be good to go:
 
@@ -31,9 +29,9 @@ Just grab it from PyPI and you should be good to go:
 python -m pip install -U garak
 ```
 
-### Install development version with `pip`
+### install this TAP specific version with `pip`
 
-The standard pip version of `garak` is updated periodically. To get a fresher version from GitHub, try:
+The standard pip version of `garak` does not have a working tap.TAP probe. To get this version that does, try:
 
 ```
 python -m pip install -U git+https://github.com/NVIDIA/garak.git@main
@@ -41,14 +39,10 @@ python -m pip install -U git+https://github.com/NVIDIA/garak.git@main
 
 ### cool things to add
 
-some useful stuff
+some useful stuff (nvidia drivers for ec2 instances)
 
 ```
-conda create --name garak "python>=3.10,<=3.12"
-conda activate garak
-gh repo clone NVIDIA/garak
-cd garak
-python -m pip install -e .
+nvidia
 ```
 
 ## Examples
@@ -83,10 +77,7 @@ Errors go in `garak.log`; the run is logged in detail in a `.jsonl` file specifi
 
 Send PRs & open issues. Happy hunting!
 
-## REST generators
-
-### REST
-
+## REST generator
 `rest.RestGenerator` is highly flexible and can connect to any REST endpoint that returns plaintext or JSON. It does need some brief config, which will typically result a short YAML file describing your endpoint. See https://reference.garak.ai/en/latest/garak.generators.rest.html for examples.
 ## Intro to tap.TAP
 
@@ -99,7 +90,7 @@ Send PRs & open issues. Happy hunting!
 
 ## FAQ
 
-We have an FAQ [here](https://github.com/NVIDIA/garak/blob/main/FAQ.md). Reach out if you have any more questions! [leon@garak.ai](mailto:leon@garak.ai)
+They have an FAQ [here](https://github.com/NVIDIA/garak/blob/main/FAQ.md). If you have questions about this specific version, you can also ask me. [wailmerrrr@gmail.com](mailto:wailmerrrr@gmail.com)
 
 Code reference documentation is at [garak.readthedocs.io](https://garak.readthedocs.io/en/latest/).
 
@@ -118,7 +109,7 @@ You can read the [garak preprint paper](garak-paper.pdf). If you use garak, plea
 
 <hr>
 
-_"Lying is a skill like any other, and if you wish to maintain a level of excellence you have to practice constantly"_ - Elim
+_"God of Lies? If you wish. What society can exist without lies?"_ - Loki Laufeyson
 
 For updates and news see [@garak_llm](https://twitter.com/garak_llm)
 
