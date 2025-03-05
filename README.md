@@ -70,6 +70,7 @@ I also added a couple of useful files:
 1. login.sh
 2. openai_login.sh
 3. garak-config.json
+4. harmful_behaviors_pair.csv
 Which improve the workflow of using TAP with REST generator. Instructions on configuring and using these will be explained further below. 
 
 ### Standard install with `pip`
@@ -83,9 +84,9 @@ python -m pip install -U garak
 ### Changing to functional TAP version
 
 The standard pip version of `garak` does not have a working TAP probe. To get this version that does, replace the folder:
-'''
-"/lib/python3.12/site-packages/garak"
-'''
+```
+"./lib/python3.12/site-packages/garak"
+```
 with the one in this repository
 
 ### Important Things to Add
@@ -100,10 +101,14 @@ watch -n 1 nvidia-smi
 Okay, so if you have done everything above, you should (hopefully) have a garak with a functional TAP probe. Otherwise, you could contact me and I'll try to send you a tar.gz file of the entire virtual environment I did this in.
 
 ### REST generator
+`rest.RestGenerator` is highly flexible and can connect to any REST endpoint that returns plaintext or JSON. It does need some brief config, which will typically result a short YAML file describing your endpoint. See https://reference.garak.ai/en/latest/garak.generators.rest.html for examples.
+
+
+
 First of all, we need to configure the REST generator to work with whatever AI application you want to use.
 
-In the garak-config.json, you should see the following code
-'''
+In the garak-config.json, you should see the following:
+```
 {
    "rest": {
       "RestGenerator": {
@@ -122,17 +127,101 @@ In the garak-config.json, you should see the following code
       }
    }
 }
-'''
+```
+Below is an explanation on what each important element is:
+1.	“name” – this is purely cosmetic and for documentation purposes
+2.	“uri” – changed to the destination of our POST request, in TAP's case, the website application hosting the AI. 
+3.	“Authorization” – changed value to “Bearer $KEY” as this is the format seen when making a request normally on my company's website. 
+4.	“Content-Type” – makes sure the request can go through without issue
+5.	"req_template_json_object" - request payload
+6.	“text” – replace with what the AI application uses if necessary (can tell from the payload)
 
+Change the value of "uri" to your request destination link. This link can be found using Inspect Element > Network OR using Burpsuite and making a request on website.
 
+The $INPUT is what the Attacker LLM prompt is supposed to be in the case of the TAP probe.
+
+The $KEY value is an environment variable called $REST_API_KEY and is not set automatically, usually manually set with the command:
+```
+export REST_API_KEY=”[your_auth_token]”
+```
+Where [your_auth_token] is the authorisation token generated upon login to the AI application and used in every request. You can find this by doing Inspect Element > Application > Cookies. Getting this token each time you logout of the session is tedious (especially if using a virtual machine to run Garak) so I created a bash script, "login.sh", to automatically login and set the $REST_API_KEY. 
+
+The code is as follows:
+```
+#!/bin/bash
+
+output=$(python -c '
+import json
+import requests
+
+# Function to log in and get the authentication token
+def login_to_website(login_url, username, password):
+    login_data = {"username": username, "password": password}
+    response = requests.post(login_url, json=login_data)
+    if response.status_code == 200:
+        try:
+            return response.json().get("token")
+        except json.JSONDecodeError as e:
+            return None
+    else:
+        raise Exception(f"Login failed with status code {response.status_code}")
+
+# Main function to run the interaction
+def main():
+    # Replace with your companys login URL, username, and password
+    login_url = "https://playground.cloudsine.tech:4001/playground/login"
+    username = "[your_username]"
+    password = "[your_password]"
+
+    # Log in and get the authentication token
+    auth_token = login_to_website(login_url, username, password)
+    magic=""
+    magic+="export REST_API_KEY=\""+str(auth_token)+"\""
+    print(magic)
+if __name__ == "__main__":
+    main()
+')
+
+eval "$output"
+
+if [ -n "$REST_API_KEY" ]; then
+        echo "REST API Key: $REST_API_KEY"
+else
+        echo "Error: REST API Key was not set."
+fi
+```
+Replace [your_username] and [your_password] with your own login credentials for the website. Run the command:
+```
+source ./login.sh
+```
+…and you should see your REST_API_KEY printed to console, which signifies the environment variable has been successfully set.
+
+Note that all of the code above was tailored mainly to my company's website (all sensitive information removed in this case) nd its functionality varies from website to website. Make changes where necessary.
+
+### GPT-3.5-TURBO API KEY
+For convenience, I made another script called "openai_login.sh" that sets the environment variable $OPENAI_API_KEY:
+```
+#!/bin/bash
+
+eval 'export OPENAI_API_KEY="[your_openai_key]"'
+
+if [ -n "$OPENAI_API_KEY" ]; then
+        echo "OPENAI API KEY: $OPENAI_API_KEY"
+else
+        echo "Error: OPENAI API KEY was not set."
+fi
+```
+You just need to change the variable [your_openai_key] to your own one.
+
+### Configuring Probe
+Everything you can configure about the probe is found in "tap.py". This is located at:
+```
+"./lib/python3.12/site-packages/garak/probes/tap.py"
+```
+Under the 
 
 ### Reading the results
 "I've just started a run, what's happening? What are all these print statements?"
-
-
-## REST generator
-`rest.RestGenerator` is highly flexible and can connect to any REST endpoint that returns plaintext or JSON. It does need some brief config, which will typically result a short YAML file describing your endpoint. See https://reference.garak.ai/en/latest/garak.generators.rest.html for examples.
-
 
 
 ## FAQ
