@@ -174,7 +174,7 @@ def login_to_website(login_url, username, password):
 # Main function to run the interaction
 def main():
     # Replace with your companys login URL, username, and password
-    login_url = "https://playground.cloudsine.tech:4001/playground/login"
+    login_url = "[login_url]"
     username = "[your_username]"
     password = "[your_password]"
 
@@ -195,7 +195,7 @@ else
         echo "Error: REST API Key was not set."
 fi
 ```
-Replace [your_username] and [your_password] with your own login credentials for the website. Run the command:
+Replace [your_username] and [your_password] with your own login credentials for the website. Replace [login_url] with the login page URL. Run the command:
 ```
 source ./login.sh
 ```
