@@ -122,7 +122,7 @@ In the garak-config.json, you should see the following:
             "Content-Type": "application/json"
          },
          "req_template_json_object": {
-                "text": "$INPUT"
+            "text": "$INPUT"
          },
          "response_json": true,
          "response_json_field": "content"
