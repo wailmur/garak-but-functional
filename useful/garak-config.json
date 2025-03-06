@@ -1,0 +1,18 @@
+{
+   "rest": {
+      "RestGenerator": {
+         "name": "NAME",
+         "uri": "URL",
+         "method": "post",
+         "headers": {
+            "Authorization": "Bearer $KEY",
+            "Content-Type": "application/json"
+         },
+         "req_template_json_object": {
+            "text": "$INPUT"
+         },
+         "response_json": true,
+         "response_json_field": "content"
+      }
+   }
+}
