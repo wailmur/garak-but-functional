@@ -61,7 +61,6 @@ def extract_json(s):
         dict: A dictionary containing the extracted values.
         str: The cleaned JSON string.
     """
-    # print("FULL PROMPT: " + str(s))
 
 
     # Extract the string that looks like a JSON
@@ -78,28 +77,12 @@ def extract_json(s):
     improvement_list = []
     prompt_list = []
     if json_matches:
-        
         for json_match in json_matches:
             m_improvement, m_prompt = json_match
-            # print("JSON MATCHES: " + str(json_match))
-            # if not m_improvement in improvement_list:
             improvement_list.append(m_improvement)
-                # improvement = improvement_list[-1]
-            # else:
-                # print("\n\n\n\nNO NEW IMPROVEMENTS\n\n\n\n")
-                # improvement = None
-            # if not m_prompt in prompt_list:
             prompt_list.append(m_prompt)
-                # prompt = prompt_list[-1]
-            # else:
-                # print("\n\n\n\nNO NEW PROMPTS\n\n\n\n")
-                # prompt = None
-
-        
-    
-            # json_str += json.dumps({"improvement": m_improvement, "prompt": m_prompt})
+            
         print("\n\nLIST OF PROMPTS: " + str(prompt_list))
-        # print("\n\nLIST OF IMPROVEMENTS: " + str(improvement_list))
         print("\n\n\nNUMBER OF PROMPTS THUS FAR: " + str(len(prompt_list)) + "\n\n")
     else:
         print("REGEX ERROR")
@@ -109,45 +92,25 @@ def extract_json(s):
 
 
     end_pos = s.rfind("}") + 1  # +1 to include the closing brace
-    #
     if end_pos == -1:
         logging.error("Error extracting potential JSON structure")
         logging.error(f"Input:\n {s}")
         return None, None
-    #
+        
     json_str = s[start_pos:end_pos]
     json_str = json_str.replace("\n", " ")  # Remove all line breaks
 
-    # improvement_group = r"^\{\"improvement\"\s*:\s*\"(.*?)\"," # improvement_group = r"^\{"improvement"\s*:\s*"(.*?)","
-    # print("\nImprovement Group: " + improvement_group)
-    # prompt_group = r",\s*\"prompt\"\s*:\s*\"(.*?)\"\s*\}$"
-    # print("\nPrompt Group: " + prompt_group)
-    
-    # print("\nJSON: " + json_str)
-    # improvement_match = re.search(improvement_group, json_str)
-    
-    # prompt_match = re.search(prompt_group, json_str)
-    # JSON str is the problem
-    # if prompt_match and improvement_match:
-        # print("\nPROMPTS: " + str(prompt_match.group(1)))
-        # print("\nIMPROVEMENTS: " + str(improvement_match.group(1)))
-
-    # improvement = improvement_match.group(1) if improvement_match is not None else ""
-    # prompt = prompt_match.group(1) if prompt_match is not None else None
     improvement = improvement_list[-1]
     prompt = prompt_list[-1]
 
 
     if prompt:
         parsed = {"improvement": improvement, "prompt": prompt}   # parsed = {"improvement": improvement, "prompt": prompt} prompt is the problem
-        # print(str(prompt))
-        ### print("\nPARSED: " + str(parsed))
         return parsed, json_str
     else:
         # Try catching chat-style outputs
         improvement_group = r"^Improvement\s*:\s*\"(.*?)\"\n"
         prompt_group = r"Prompt\s*:\s*\"(.*?)\"\s*\n"
-        # alternative_group = r"USER\s*:\s*(.*?)\n"
         alternative_group = r"ASSISTANT\s*:\s*\n"
         improvement_match = re.search(improvement_group, s)
         prompt_match = re.search(prompt_group, s)
@@ -161,9 +124,7 @@ def extract_json(s):
                 alternative_match.group(1) if alternative_match is not None else None
             )
         if prompt:
-            # print(str(prompt))
             parsed = {"improvement": improvement, "prompt": prompt}
-            ### print("\nPARSED: " + str(parsed))
             json_str = json.dumps(parsed)
             return parsed, json_str
         else:
