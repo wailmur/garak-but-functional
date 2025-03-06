@@ -10,7 +10,7 @@
 
 <hr>
 
-Only proven to work with python3.12
+Only tested to work with python3.12, other python versions may not be supported, sorry.
 
 ## TAP? What's a TAP?
 TAP, or Tree of Attacks with Pruning, is a 3-model system of jailbreaking an AI, developed by Robust Intelligence (RI). They were exploring the application of AI in Red Teaming.
