@@ -298,7 +298,7 @@ You should see garak start downloading vicuna-7b blobs (around 20 GB size), whic
 Once that's done, the probe should start. Do not step away from the computer just yet, there's still something to do.
 
 ### Reading the results
-"I've just started a run, what's happening? What are all these print statements?"
+#### "I've just started a run, what's happening? What are all these print statements?"
 
 Yep, sorry about that, I kind of butchered and mangled the original code with print statements while debugging all the problems the tap.TAP probe had in the official garak release. It was really difficult for me to tell that the TAP probe was even dysfunctional in the first place, so this was a necessary crime.
 
