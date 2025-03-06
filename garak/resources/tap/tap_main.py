@@ -108,9 +108,7 @@ class AttackManager(EvaluationJudge):
         full_prompts = []
         # Add prompts and initial seeding messages to conversations (only once)
         for conv, prompt in zip(convs, prompts):
-            # print("CONV BEFORE: " + str(conv))
             conv.append_message(conv.roles[0], prompt)
-            # print("CONV AFTER: " + str(conv))
             # Get prompts
             if not isinstance(self.attack_generator, Model): # if not isinstance(self.attack_generator, Model):
                 full_prompts.append(conv.to_openai_api_messages())
