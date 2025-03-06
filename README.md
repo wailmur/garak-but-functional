@@ -89,6 +89,8 @@ The standard pip version of `garak` does not have a working TAP probe. To get th
 ```
 with the one in this repository
 
+Other files that will be used later are found in the "Useful Files" folder of this repository. Make sure to copy them to your virtual environment. (or don't, its up to you if you want to make them yourself) 
+
 ### Important Things to Add
 AWS EC2 Instances do not have NVIDIA drivers installed by default, which are required for TAP to work, so please install the appropriate drivers.
 
